@@ -8,7 +8,7 @@ const api = axios.create({
 
 function App() {
   const [tasks, setTasks] = useState([])
-  const [title, setTitle] = useState('')
+  const [text, setText] = useState('')
 
   useEffect(() => {
     fetchTasks()
@@ -25,11 +25,11 @@ function App() {
 
   const addTask = async (e) => {
     e.preventDefault()
-    if (!title.trim()) return
+    if (!text.trim()) return
     try {
-      const response = await api.post('/tasks', { title })
+      const response = await api.post('/tasks', { text })
       setTasks([...tasks, response.data])
-      setTitle('')
+      setText('')
     } catch (error) {
       console.error('Erro ao criar tarefa', error)
     }
@@ -52,15 +52,15 @@ function App() {
           <input 
             type="text" 
             placeholder="Adicionar nova tarefa..." 
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
           />
           <button type="submit">Adicionar</button>
         </form>
         <ul className="todo-list">
           {tasks.map(task => (
             <li key={task.id} className="todo-item">
-              <span>{task.title}</span>
+              <span>{task.text}</span>
               <button 
                 className="btn-remove" 
                 onClick={() => removeTask(task.id)}
