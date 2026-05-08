@@ -35,6 +35,15 @@ function App() {
     }
   }
 
+  const removeTask = async (id) => {
+    try {
+      await api.delete(`/tasks/${id}`)
+      setTasks(tasks.filter(task => task.id !== id))
+    } catch (error) {
+      console.error('Erro ao remover tarefa', error)
+    }
+  }
+
   return (
     <div className="container">
       <div className="todo-app">
@@ -52,6 +61,12 @@ function App() {
           {tasks.map(task => (
             <li key={task.id} className="todo-item">
               <span>{task.title}</span>
+              <button 
+                className="btn-remove" 
+                onClick={() => removeTask(task.id)}
+              >
+                Remover
+              </button>
             </li>
           ))}
           {tasks.length === 0 && (
